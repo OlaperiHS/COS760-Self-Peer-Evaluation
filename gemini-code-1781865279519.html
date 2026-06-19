@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Peer Evaluation Form</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: #f9f9f9;
+        }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
+        h2 { border-bottom: 2px solid #edf2f7; padding-bottom: 8px; color: #4a5568; margin-top: 30px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.95rem; }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .rating-box {
+            background: #f7fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+            background: white;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.2s;
+        }
+        button:hover { background: #2b6cb0; }
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+        .success { background-color: #c6f6d5; color: #22543d; }
+        .error { background-color: #fed7d7; color: #742a2a; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Peer Evaluation Form</h1>
+    <form id="evalForm">
+        
+        <div class="form-group" style="background: #ebf8ff; padding: 15px; border-radius: 6px; border: 1px solid #bee3f8;">
+            <label for="scriptUrl" style="color: #2b6cb0;">Paste your Google Apps Script Web App URL here:</label>
+            <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" required>
+        </div>
+
+        <h2>General Info</h2>
+        <div class="grid-3">
+            <div class="form-group">
+                <label for="group">Group Name/No.</label>
+                <input type="text" id="group" required placeholder="e.g., Group 4">
+            </div>
+            <div class="form-group">
+                <label for="raterName">Your Name</label>
+                <input type="text" id="raterName" required placeholder="Alex Smith">
+            </div>
+            <div class="form-group">
+                <label for="raterSid">Your Student ID</label>
+                <input type="text" id="raterSid" required placeholder="123456">
+            </div>
+        </div>
+
+        <h2>Self Evaluation</h2>
+        <p style="font-size: 0.85rem; color: #718096; margin-top: -10px;">Rate yourself from 1 (Poor) to 5 (Excellent) on Questions 1 to 5.</p>
+        <div class="grid-3">
+            <div class="rating-box"><label>Q1</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q2</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q3</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q4</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q5</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+        </div>
+
+        <h2>Peer 1 Evaluation</h2>
+        <div class="grid-3" style="margin-bottom: 15px;">
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="peer1Name">Peer 1 Name</label>
+                <input type="text" id="peer1Name" required placeholder="Teammate 1 Name">
+            </div>
+            <div class="form-group">
+                <label for="peer1Sid">Peer 1 Student ID</label>
+                <input type="text" id="peer1Sid" required placeholder="678910">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="rating-box"><label>Q1</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q2</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q3</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q4</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q5</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+        </div>
+
+        <h2>Peer 2 Evaluation</h2>
+        <div class="grid-3" style="margin-bottom: 15px;">
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="peer2Name">Peer 2 Name</label>
+                <input type="text" id="peer2Name" required placeholder="Teammate 2 Name">
+            </div>
+            <div class="form-group">
+                <label for="peer2Sid">Peer 2 Student ID</label>
+                <input type="text" id="peer2Sid" required placeholder="111213">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="rating-box"><label>Q1</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q2</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q3</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q4</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+            <div class="rating-box"><label>Q5</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
+        </div>
+
+        <button type="submit" id="submitBtn">Submit Evaluation</button>
+    </form>
+    
+    <div id="message"></div>
+</div>
+
+<script>
+    // Helper function to calculate average of an array of select elements
+    function getAverage(className) {
+        const selects = document.querySelectorAll(className);
+        let sum = 0;
+        selects.forEach(select => sum += parseInt(select.value));
+        return (sum / selects.length).toFixed(2);
+    }
+
+    document.getElementById('evalForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const msgDiv = document.getElementById('message');
+        const url = document.getElementById('scriptUrl').value.trim();
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Submitting...";
+        msgDiv.style.display = "none";
+
+        // Gather all ratings individually
+        const selfScores = Array.from(document.querySelectorAll('.self-q')).map(s => parseInt(s.value));
+        const p1Scores = Array.from(document.querySelectorAll('.p1-q')).map(s => parseInt(s.value));
+        const p2Scores = Array.from(document.querySelectorAll('.p2-q')).map(s => parseInt(s.value));
+
+        // Format exactly how the Google Apps Script expects it
+        const payload = {
+            group: document.getElementById('group').value,
+            raterName: document.getElementById('raterName').value,
+            raterSid: document.getElementById('raterSid').value,
+            self: {
+                q1: selfScores[0], q2: selfScores[1], q3: selfScores[2], q4: selfScores[3], q5: selfScores[4],
+                avg: parseFloat(getAverage('.self-q'))
+            },
+            peer1: {
+                name: document.getElementById('peer1Name').value,
+                sid: document.getElementById('peer1Sid').value,
+                q1: p1Scores[0], q2: p1Scores[1], q3: p1Scores[2], q4: p1Scores[3], q5: p1Scores[4],
+                avg: parseFloat(getAverage('.p1-q'))
+            },
+            peer2: {
+                name: document.getElementById('peer2Name').value,
+                sid: document.getElementById('peer2Sid').value,
+                q1: p2Scores[0], q2: p2Scores[1], q3: p2Scores[2], q4: p2Scores[3], q5: p2Scores[4],
+                avg: parseFloat(getAverage('.p2-q'))
+            }
+        };
+
+        // Send data to Google Apps Script Web App
+        fetch(url, {
+            method: 'POST',
+            mode: 'no-cors', // Essential for Google Apps Script Web App redirections
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            // Because of 'no-cors', we won't receive the text 'ok' response explicitly, 
+            // but a successful fetch execution means it reached the endpoint.
+            msgDiv.className = "success";
+            msgDiv.innerText = "Evaluation submitted successfully!";
+            msgDiv.style.display = "block";
+            document.getElementById('evalForm').reset();
+            // Keep URL filled for testing convenience
+            document.getElementById('scriptUrl').value = url;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            msgDiv.className = "error";
+            msgDiv.innerText = "An error occurred. Please verify your Web App URL.";
+            msgDiv.style.display = "block";
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit Evaluation";
+        });
+    });
+</script>
+
+</body>
+</html>
