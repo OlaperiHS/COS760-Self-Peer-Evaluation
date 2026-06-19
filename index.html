@@ -365,10 +365,20 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
     return; 
   }
 
+  // 2. Lock the UI immediately to prevent duplicate mashing/double clicks
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Submitting, please wait...";
+  submitBtn.style.background = "#999"; 
+  submitBtn.style.cursor = "not-allowed";
+
   // --- CHANGED HERE: Send straight to Google Sheets ---
   try {
     pushToSheet(data);
+    clearAllFormFields();
     showMsg(msgEl, 'success', `Submitted! Group ${group}, ${names.self.name}'s evaluation sent.`);
+    submitBtn.innerText = "✓ Response Submitted";
+    submitBtn.style.background = "#2e7d32"; // Success green matching your palette
+    submitBtn.style.color = "#ffffff";
     window.scrollTo({top: 0, behavior: 'smooth'});
   } catch(e) {
     showMsg(msgEl, 'error', 'Could not send response. Check your connection.');
@@ -408,6 +418,21 @@ function avgOf(entry){
   const vals = QUESTIONS.map((_,i)=>entry['q'+(i+1)]).filter(v=>typeof v==='number');
   if(vals.length===0) return null;
   return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+
+  // ---------- Reset Field Sweeper Helper ----------
+function clearAllFormFields() {
+  // Grab and wipe all typing fields (Group #, Name, Student #, Email, Comments)
+  const inputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="email"], textarea');
+  inputs.forEach(input => {
+    input.value = '';
+  });
+
+  // Uncheck every single radio button score option across all evaluation tables
+  const radios = document.querySelectorAll('input[type="radio"]');
+  radios.forEach(radio => {
+    radio.checked = false;
+  });
 }
 
 
