@@ -1,242 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NLP Peer Evaluation Form</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 0 20px;
-            background-color: #f9f9f9;
-        }
-        .form-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; }
-        h2 { border-bottom: 2px solid #edf2f7; padding-bottom: 8px; color: #4a5568; margin-top: 30px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.95rem; }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-        .rating-box {
-            background: #f7fafc;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-        }
-        select {
-            width: 100%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #cbd5e0;
-            background: white;
-        }
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: #3182ce;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 30px;
-            transition: background 0.2s;
-        }
-        button:hover { background: #2b6cb0; }
-        #message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
-            display: none;
-            text-align: center;
-            font-weight: bold;
-        }
-        .success { background-color: #c6f6d5; color: #22543d; }
-        .error { background-color: #fed7d7; color: #742a2a; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NLP Group Project — Participation Evaluation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --ink:#14213D;
+    --bg:#F4F6F8;
+    --surface:#FFFFFF;
+    --accent:#E07A2C;
+    --accent-soft:#FBE6D4;
+    --teal:#2A9D8F;
+    --teal-soft:#DDF0EE;
+    --muted:#6B7280;
+    --border:#E2E5EA;
+    --danger:#C84B4B;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 80px;}
+  header.top{
+    background:var(--ink);
+    color:#fff;
+    padding:32px 20px 26px;
+    margin-bottom:28px;
+  }
+  header.top .inner{max-width:760px;margin:0 auto;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:8px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:28px;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  header.top p{margin:0;color:#C9D0DE;font-size:14.5px;max-width:540px;}
+
+  .tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1px solid var(--border);}
+  .tab-btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14px;font-weight:500;
+    background:none;border:none;
+    padding:10px 4px;margin-right:18px;
+    color:var(--muted);cursor:pointer;
+    border-bottom:2px solid transparent;
+    transition:color .15s;
+  }
+  .tab-btn.active{color:var(--ink);border-bottom-color:var(--accent);}
+  .tab-btn:hover{color:var(--ink);}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+    margin-bottom:18px;
+  }
+  .card h2{
+    font-family:'Fraunces',serif;
+    font-size:18px;font-weight:600;
+    margin:0 0 4px;
+  }
+  .card .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;}
+
+  label{font-size:13.5px;font-weight:500;display:block;margin-bottom:5px;color:var(--ink);}
+  input[type=text], input[type=number]{
+    width:100%;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:#fff;
+    margin-bottom:0;
+  }
+  input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;}
+  @media(max-width:480px){.grid2{grid-template-columns:1fr;}}
+
+  .rating-block{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .rating-block .rb-head{
+    background:var(--teal-soft);
+    padding:16px 20px 18px;
+    border-bottom:1px solid var(--border);
+  }
+  .rating-block.self .rb-head{background:var(--accent-soft);}
+  .rb-head .rb-tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--teal);
+    margin-bottom:10px;
+  }
+  .rating-block.self .rb-head .rb-tag{color:var(--accent);}
+  .rb-head .rb-fields{display:grid;grid-template-columns:2fr 1fr;gap:0 10px;}
+  @media(max-width:480px){.rb-head .rb-fields{grid-template-columns:1fr;}}
+  .rb-head label{font-size:12px;margin-bottom:4px;color:var(--muted);}
+  .rb-head input{font-size:14.5px;padding:9px 10px;margin-bottom:0;}
+  .rb-body{padding:6px 20px 14px;}
+
+  .q-row{padding:14px 0;border-bottom:1px solid var(--border);}
+  .q-row:last-child{border-bottom:none;}
+  .q-text{display:flex;gap:8px;align-items:baseline;margin-bottom:10px;}
+  .q-idx{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:#fff;background:var(--ink);
+    padding:1px 6px;border-radius:4px;flex-shrink:0;
+  }
+  .q-text span.qt{font-size:14.5px;}
+
+  .scale{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .scale .anchor{font-size:11px;color:var(--muted);width:78px;}
+  .scale .anchor.right{text-align:right;}
+  .chip{position:relative;}
+  .chip input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;}
+  .chip label{
+    width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    border:1.5px solid var(--border);
+    border-radius:50%;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:14px;font-weight:600;color:var(--muted);
+    margin:0;cursor:pointer;
+    transition:all .12s;
+  }
+  .chip input:checked + label{
+    background:var(--ink);border-color:var(--ink);color:#fff;
+  }
+  .chip input:focus-visible + label{outline:2px solid var(--teal);outline-offset:2px;}
+
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:14.5px;font-weight:600;
+    background:var(--ink);color:#fff;
+    border:none;border-radius:8px;
+    padding:13px 22px;cursor:pointer;
+    width:100%;
+  }
+  .btn:hover{background:#0d1730;}
+  .btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--border);width:auto;padding:9px 16px;font-weight:500;}
+  .btn.secondary:hover{background:var(--bg);}
+
+  .msg{
+    border-radius:8px;padding:12px 14px;font-size:14px;margin-bottom:16px;
+    display:none;
+  }
+  .msg.show{display:block;}
+  .msg.success{background:var(--teal-soft);color:#1A5F58;border:1px solid #B6E0DB;}
+  .msg.error{background:#FBE9E9;color:var(--danger);border:1px solid #F2C6C6;}
+  .msg.info{background:#EEF1F7;color:var(--ink);border:1px solid var(--border);}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{
+    text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.05em;text-transform:uppercase;color:var(--muted);
+    padding:8px 10px;border-bottom:1.5px solid var(--ink);
+  }
+  td{padding:9px 10px;border-bottom:1px solid var(--border);}
+  tr:hover td{background:var(--bg);}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    padding:2px 8px;border-radius:20px;display:inline-block;
+  }
+  .pill.complete{background:var(--teal-soft);color:#1A5F58;}
+  .pill.partial{background:var(--accent-soft);color:#8A4413;}
+  .score{font-family:'IBM Plex Mono',monospace;font-weight:600;}
+
+  .dash-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .dash-toolbar input{width:160px;margin:0;}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;}
+  .note{font-size:12.5px;color:var(--muted);margin-top:6px;}
+</style>
 </head>
 <body>
 
-<div class="form-container">
-    <h1>Peer Evaluation Form</h1>
-    <form id="evalForm">
-        
-        <div class="form-group" style="background: #ebf8ff; padding: 15px; border-radius: 6px; border: 1px solid #bee3f8;">
-            <label for="scriptUrl" style="color: #2b6cb0;">Paste your Google Apps Script Web App URL here:</label>
-            <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec" required>
-        </div>
+<header class="top">
+  <div class="inner">
+    <div class="eyebrow">NLP Group Project</div>
+    <h1>Participation evaluation</h1>
+    <p>Rate yourself and your two teammates on participation in the group project. Takes about 3 minutes.</p>
+  </div>
+</header>
 
-        <h2>General Info</h2>
-        <div class="grid-3">
-            <div class="form-group">
-                <label for="group">Group Name/No.</label>
-                <input type="text" id="group" required placeholder="e.g., Group 4">
-            </div>
-            <div class="form-group">
-                <label for="raterName">Your Name</label>
-                <input type="text" id="raterName" required placeholder="Alex Smith">
-            </div>
-            <div class="form-group">
-                <label for="raterSid">Your Student ID</label>
-                <input type="text" id="raterSid" required placeholder="123456">
-            </div>
-        </div>
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="submit">Submit my evaluation</button>
+    <button class="tab-btn" data-tab="dashboard">Instructor dashboard</button>
+  </div>
 
-        <h2>Self Evaluation</h2>
-        <p style="font-size: 0.85rem; color: #718096; margin-top: -10px;">Rate yourself from 1 (Poor) to 5 (Excellent) on Questions 1 to 5.</p>
-        <div class="grid-3">
-            <div class="rating-box"><label>Q1</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q2</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q3</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q4</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q5</label><select class="self-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-        </div>
+  <!-- SUBMIT PANEL -->
+  <div class="panel active" id="panel-submit">
+    <div id="submit-msg" class="msg"></div>
 
-        <h2>Peer 1 Evaluation</h2>
-        <div class="grid-3" style="margin-bottom: 15px;">
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="peer1Name">Peer 1 Name</label>
-                <input type="text" id="peer1Name" required placeholder="Teammate 1 Name">
-            </div>
-            <div class="form-group">
-                <label for="peer1Sid">Peer 1 Student ID</label>
-                <input type="text" id="peer1Sid" required placeholder="678910">
-            </div>
-        </div>
-        <div class="grid-3">
-            <div class="rating-box"><label>Q1</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q2</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q3</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q4</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q5</label><select class="p1-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-        </div>
+    <div class="card">
+      <h2>Group</h2>
+      <p class="sub">Each of the three blocks below has its own name and student number field, right next to the ratings for that person, so there's no mix-up about who you're rating.</p>
+      <label for="groupNum">Group number (1–60)</label>
+      <input type="number" id="groupNum" min="1" max="60" placeholder="e.g. 14">
+    </div>
 
-        <h2>Peer 2 Evaluation</h2>
-        <div class="grid-3" style="margin-bottom: 15px;">
-            <div class="form-group" style="grid-column: span 2;">
-                <label for="peer2Name">Peer 2 Name</label>
-                <input type="text" id="peer2Name" required placeholder="Teammate 2 Name">
-            </div>
-            <div class="form-group">
-                <label for="peer2Sid">Peer 2 Student ID</label>
-                <input type="text" id="peer2Sid" required placeholder="111213">
-            </div>
-        </div>
-        <div class="grid-3">
-            <div class="rating-box"><label>Q1</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q2</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q3</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q4</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-            <div class="rating-box"><label>Q5</label><select class="p2-q" required><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select></div>
-        </div>
+    <div id="rating-blocks"></div>
 
-        <button type="submit" id="submitBtn">Submit Evaluation</button>
-    </form>
-    
-    <div id="message"></div>
-</div>
+    <button class="btn" id="submitBtn">Submit evaluation</button>
+    <p class="note" id="prefillNote"></p>
+  </div>
+
+  
 
 <script>
-    // Helper function to calculate average of an array of select elements
-    function getAverage(className) {
-        const selects = document.querySelectorAll(className);
-        let sum = 0;
-        selects.forEach(select => sum += parseInt(select.value));
-        return (sum / selects.length).toFixed(2);
-    }
+const QUESTIONS = [
+  "Contributed a fair share of the overall workload",
+  "Communicated clearly and stayed responsive to the team",
+  "Met deadlines and followed through on commitments",
+  "Brought useful ideas or good-quality work to the project",
+  "Was respectful and easy to collaborate with"
+];
 
-    document.getElementById('evalForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitBtn = document.getElementById('submitBtn');
-        const msgDiv = document.getElementById('message');
-        const url = document.getElementById('scriptUrl').value.trim();
+function normalize(s){ return (s||"").trim().toLowerCase().replace(/\s+/g,'_'); }
+function displayName(s){ return (s||"").trim(); }
+// identity key prefers student number (more reliable than typed names); falls back to name
+function idKey(sid, name){ return normalize(sid) || normalize(name); }
+function subKey(group, key){ return `submission:G${group}:${key}`; }
 
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Submitting...";
-        msgDiv.style.display = "none";
+// ---------- Tabs ----------
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='dashboard') loadDashboard();
+  });
+});
 
-        // Gather all ratings individually
-        const selfScores = Array.from(document.querySelectorAll('.self-q')).map(s => parseInt(s.value));
-        const p1Scores = Array.from(document.querySelectorAll('.p1-q')).map(s => parseInt(s.value));
-        const p2Scores = Array.from(document.querySelectorAll('.p2-q')).map(s => parseInt(s.value));
+// ---------- Build rating blocks ----------
+const blocksConfig = [
+  {prefix:'self', cls:'self', tag:'Rating yourself'},
+  {prefix:'peer1', cls:'peer', tag:'Rating teammate 1'},
+  {prefix:'peer2', cls:'peer', tag:'Rating teammate 2'}
+];
 
-        // Format exactly how the Google Apps Script expects it
-        const payload = {
-            group: document.getElementById('group').value,
-            raterName: document.getElementById('raterName').value,
-            raterSid: document.getElementById('raterSid').value,
-            self: {
-                q1: selfScores[0], q2: selfScores[1], q3: selfScores[2], q4: selfScores[3], q5: selfScores[4],
-                avg: parseFloat(getAverage('.self-q'))
-            },
-            peer1: {
-                name: document.getElementById('peer1Name').value,
-                sid: document.getElementById('peer1Sid').value,
-                q1: p1Scores[0], q2: p1Scores[1], q3: p1Scores[2], q4: p1Scores[3], q5: p1Scores[4],
-                avg: parseFloat(getAverage('.p1-q'))
-            },
-            peer2: {
-                name: document.getElementById('peer2Name').value,
-                sid: document.getElementById('peer2Sid').value,
-                q1: p2Scores[0], q2: p2Scores[1], q3: p2Scores[2], q4: p2Scores[3], q5: p2Scores[4],
-                avg: parseFloat(getAverage('.p2-q'))
-            }
-        };
+function ratingBlockHTML(cfg){
+  let rows = QUESTIONS.map((q,i)=>{
+    const qi = i+1;
+    let chips = [1,2,3,4,5].map(v=>`
+      <div class="chip">
+        <input type="radio" name="${cfg.prefix}_q${qi}" id="${cfg.prefix}_q${qi}_${v}" value="${v}">
+        <label for="${cfg.prefix}_q${qi}_${v}">${v}</label>
+      </div>`).join('');
+    return `
+      <div class="q-row">
+        <div class="q-text"><span class="q-idx">Q${qi}</span><span class="qt">${q}</span></div>
+        <div class="scale">
+          <span class="anchor">Strongly disagree</span>
+          ${chips}
+          <span class="anchor right">Strongly agree</span>
+        </div>
+      </div>`;
+  }).join('');
 
-        // Send data to Google Apps Script Web App
-        fetch(url, {
-            method: 'POST',
-            mode: 'no-cors', // Essential for Google Apps Script Web App redirections
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(() => {
-            // Because of 'no-cors', we won't receive the text 'ok' response explicitly, 
-            // but a successful fetch execution means it reached the endpoint.
-            msgDiv.className = "success";
-            msgDiv.innerText = "Evaluation submitted successfully!";
-            msgDiv.style.display = "block";
-            document.getElementById('evalForm').reset();
-            // Keep URL filled for testing convenience
-            document.getElementById('scriptUrl').value = url;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            msgDiv.className = "error";
-            msgDiv.innerText = "An error occurred. Please verify your Web App URL.";
-            msgDiv.style.display = "block";
-        })
-        .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "Submit Evaluation";
-        });
+  return `
+    <div class="rating-block ${cfg.cls}" data-prefix="${cfg.prefix}">
+      <div class="rb-head">
+        <div class="rb-tag">${cfg.tag}</div>
+        <div class="rb-fields">
+          <div>
+            <label for="${cfg.prefix}_name">Name</label>
+            <input type="text" id="${cfg.prefix}_name" placeholder="Full name">
+          </div>
+          <div>
+            <label for="${cfg.prefix}_sid">Student number</label>
+            <input type="text" id="${cfg.prefix}_sid" placeholder="e.g. 2451234">
+          </div>
+        </div>
+      </div>
+      <div class="rb-body">${rows}</div>
+    </div>`;
+}
+
+document.getElementById('rating-blocks').innerHTML = blocksConfig.map(ratingBlockHTML).join('');
+
+
+
+// ---------- Submit ----------
+function showMsg(el, type, text){
+  el.className = 'msg show '+type;
+  el.textContent = text;
+}
+
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const msgEl = document.getElementById('submit-msg');
+  const group = document.getElementById('groupNum').value;
+
+  if(!group || group < 1 || group > 60){ 
+    showMsg(msgEl, 'error', 'Enter a valid group number (1–60).'); 
+    return; 
+  }
+
+  const names = {};
+  let missingId = false;
+  blocksConfig.forEach(cfg => {
+    names[cfg.prefix] = {
+      name: displayName(document.getElementById(cfg.prefix + '_name').value),
+      sid: displayName(document.getElementById(cfg.prefix + '_sid').value)
+    };
+    if(!names[cfg.prefix].name || !names[cfg.prefix].sid) missingId = true;
+  });
+  if(missingId){ 
+    showMsg(msgEl, 'error', 'Fill in both name and student number for yourself and both teammates.'); 
+    return; 
+  }
+
+  const data = {group, ts: Date.now()};
+  let missingRating = false;
+  for(const cfg of blocksConfig){
+    const entry = {name: names[cfg.prefix].name, sid: names[cfg.prefix].sid};
+    QUESTIONS.forEach((_, i) => {
+      const qi = i + 1;
+      const checked = document.querySelector(`input[name="${cfg.prefix}_q${qi}"]:checked`);
+      if(!checked){ missingRating = true; }
+      entry['q' + qi] = checked ? Number(checked.value) : null;
     });
-</script>
+    data[cfg.prefix] = entry;
+  }
+  if(missingRating){ 
+    showMsg(msgEl, 'error', 'Please answer all 5 questions for yourself and both teammates.'); 
+    return; 
+  }
 
+  // --- CHANGED HERE: Send straight to Google Sheets ---
+  try {
+    pushToSheet(data);
+    showMsg(msgEl, 'success', `Submitted! Group ${group}, ${names.self.name}'s evaluation sent.`);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  } catch(e) {
+    showMsg(msgEl, 'error', 'Could not send response. Check your connection.');
+  }
+});
+
+// ---------- Live Google Sheet (optional) ----------
+// Paste your Apps Script Web App URL here once deployed (see google_sheets_bridge.gs).
+// Leave blank to skip — the in-tool dashboard above will still work either way.
+const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz0e22iIIpfxI7xSC9-mbRqUYLpAh1T_XIt2p6TH9JzO95pk4w2yQsxcnwJvk0ixiTY9g/exec";
+
+function pushToSheet(data){
+  if(!SHEETS_WEBAPP_URL) return; // not configured, skip silently
+  const mk = (entry)=>({
+    name: entry.name, sid: entry.sid,
+    q1: entry.q1, q2: entry.q2, q3: entry.q3, q4: entry.q4, q5: entry.q5,
+    avg: avgOf(entry)!==null ? Number(avgOf(entry).toFixed(2)) : null
+  });
+  const payload = {
+    group: data.group,
+    raterName: data.self.name,
+    raterSid: data.self.sid,
+    self: mk(data.self),
+    peer1: mk(data.peer1),
+    peer2: mk(data.peer2)
+  };
+  // text/plain avoids a CORS preflight that Apps Script doesn't handle; fire-and-forget.
+  fetch(SHEETS_WEBAPP_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).catch(()=>{ /* live sheet is a bonus channel — storage above is the source of truth */ });
+}
+
+function avgOf(entry){
+  const vals = QUESTIONS.map((_,i)=>entry['q'+(i+1)]).filter(v=>typeof v==='number');
+  if(vals.length===0) return null;
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+
+
+
+
+</script>
 </body>
 </html>
