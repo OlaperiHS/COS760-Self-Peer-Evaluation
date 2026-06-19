@@ -213,7 +213,6 @@
 <div class="wrap">
   <div class="tabs">
     <button class="tab-btn active" data-tab="submit">Submit my evaluation</button>
-    <button class="tab-btn" data-tab="dashboard">Instructor dashboard</button>
   </div>
 
   <!-- SUBMIT PANEL -->
@@ -221,13 +220,23 @@
     <div id="submit-msg" class="msg"></div>
 
     <div class="card">
-      <h2>Group</h2>
-      <p class="sub">Each of the three blocks below has its own name and student number field, right next to the ratings for that person, so there's no mix-up about who you're rating.</p>
+      <h2>Group Details and Email</h2>
+      <p class="sub">Please fill out your details accurately.</p>
+      <p class="sub">You are expected to rate yourself and both team members. Please enter all student names and numbers accurately. </p>
+
+
       <label for="groupNum">Group number (1–60)</label>
       <input type="number" id="groupNum" min="1" max="60" placeholder="e.g. 14">
+
+      <div style="margin-bottom: 12px;">
+          <label for="self_email">Your Email Address</label>
+          <input type="text" id="self_email" placeholder="e.g. u3444444@tuks.ac.za">
+    </div>
     </div>
 
     <div id="rating-blocks"></div>
+    <p class="sub"  style="color: red;">You should get an email after submitting, this confirms that your response was recorded.</p>
+
 
     <button class="btn" id="submitBtn">Submit evaluation</button>
     <p class="note" id="prefillNote"></p>
@@ -369,8 +378,7 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
 // ---------- Live Google Sheet (optional) ----------
 // Paste your Apps Script Web App URL here once deployed (see google_sheets_bridge.gs).
 // Leave blank to skip — the in-tool dashboard above will still work either way.
-const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz0e22iIIpfxI7xSC9-mbRqUYLpAh1T_XIt2p6TH9JzO95pk4w2yQsxcnwJvk0ixiTY9g/exec";
-
+const SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxVmDH3Qqm-0V_6ni7UnAki_lD5l5VZsBV7RcHxF01gu4_SsqyJj4RXFBRjExjHhMJv7Q/exec"
 function pushToSheet(data){
   if(!SHEETS_WEBAPP_URL) return; // not configured, skip silently
   const mk = (entry)=>({
@@ -382,6 +390,7 @@ function pushToSheet(data){
     group: data.group,
     raterName: data.self.name,
     raterSid: data.self.sid,
+    raterEmail: document.getElementById('self_email').value.trim(), // <-- ADD THIS LINE
     self: mk(data.self),
     peer1: mk(data.peer1),
     peer2: mk(data.peer2)
